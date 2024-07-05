@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   // State to manage the navbar's visibility
   const [nav, setNav] = useState(false);
+
+  const user = !true;
 
   // Toggle function to handle the navbar's display
   const handleNav = () => {
@@ -12,17 +15,21 @@ const NavBar = () => {
 
   // Array containing navigation items
   const navItems = [
-    { id: 1, text: 'Home' },
-    { id: 2, text: 'Company' },
-    { id: 3, text: 'Resources' },
-    { id: 4, text: 'Login' },
-    { id: 5, text: 'Register' },
+    // { id: 1, text: 'Home' },
+    // { id: 2, text: 'Company' },
+    // { id: 3, text: 'Resources' },
+    { id: 4, text: 'Login' ,path:'/login'},
+    { id: 5, text: 'Register' ,path:'/register'},
   ];
+  const navItemsAfterLoged =[
+    { id: 1, text: 'Write' },
+    { id: 2, text: 'Profile' },
+  ]
 
   return (
     <div className='bg-black flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-white'>
       {/* Logo */}
-      <h1 className='w-full text-3xl font-bold text-[#00df9a]'>REACT.</h1>
+      <Link to='/'><h1 className='w-full text-3xl font-bold text-[#00df9a]'>REACT.</h1></Link>
 
       {/* Desktop Navigation */}
       <div className='hidden md:flex items-center'>
@@ -34,14 +41,23 @@ const NavBar = () => {
         />
 
         <ul className='flex'>
-          {navItems.map(item => (
-            <li
-              key={item.id}
-              className='p-4 hover:bg-[#00df9a] rounded-xl m-2 cursor-pointer duration-300 hover:text-black'
-            >
-              {item.text}
-            </li>
-          ))}
+          {
+            user
+            ? navItemsAfterLoged.map((item) => (
+              <Link key={item.id} to={item.path}>
+              <li key={item.id} className='ml-4'>
+                {item.text}
+              </li>
+              </Link>
+            ))
+            : navItems.map((item) => (
+              <Link key={item.id} to={item.path}>
+              <li key={item.id} className='ml-4'>
+                {item.text}
+              </li>
+              </Link>
+            ))
+          }
         </ul>
         
        
@@ -73,14 +89,19 @@ const NavBar = () => {
         </div>
 
         {/* Mobile Navigation Items */}
-        {navItems.map(item => (
-          <li
-            key={item.id}
-            className='p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600'
-          >
-            {item.text}
-          </li>
-        ))}
+        {
+            user
+            ? navItemsAfterLoged.map((item) => (
+              <li key={item.id} className='ml-4'>
+                {item.text}
+              </li>
+            ))
+            : navItems.map((item) => (
+              <li key={item.id} className='ml-4'>
+                {item.text}
+              </li>
+            ))
+          }
       </ul>
     </div>
   );
